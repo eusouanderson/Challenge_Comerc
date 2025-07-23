@@ -19,13 +19,55 @@ Content-Type: application/json
 ###
 # Atualizar um campo isolado do usuário (PATCH)
 # Exemplo atualizando o campo "name" de um usuário pelo id
-PATCH {{baseURL}}/users/:id
+PATCH {{baseURL}}/users/1
 Content-Type: application/json
 
 {
-  "name": "Anderson"
+  "name": "Anderson Atualizado"
 }
 
 ###
 # Apagar um usuário (DELETE)
-DELETE {{baseURL}}/users/:id
+DELETE {{baseURL}}/users/1
+
+###
+# ================================
+# Rotas de Filmes (Movies)
+# ================================
+
+###
+
+GET {{baseURL}}/movies/search
+
+###
+# Salvar um filme favorito manualmente (exemplo)
+POST {{baseURL}}/api/movies
+Content-Type: application/json
+
+{
+  "title": "Matrix",
+  "year": "1999",
+  "imdbID": "tt0133093",
+  "type": "movie",
+  "poster": "https://example.com/poster.jpg"
+}
+
+###
+# Listar todos os filmes salvos
+GET {{baseURL}}/api/movies/list
+
+###
+# Deletar um filme salvo por ID
+DELETE {{baseURL}}/api/movies/tt0133093
+
+### Buscar filme por ID (Ex: tt3896198)
+GET http://www.omdbapi.com/?i=tt3896198&apikey=7d158874
+
+
+### 
+POST {{baseURL}}/movies/search
+
+{
+  "title": "Matrix",
+  "year": "1999"
+}
