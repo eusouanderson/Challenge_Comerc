@@ -1,0 +1,31 @@
+@baseURL = http://localhost:3000
+
+###
+# Listar todos os usuários
+GET {{baseURL}}/users
+
+###
+# Criar um usuário (POST) - Exemplo de JSON no body
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+  "name": "Anderson",
+  "email": "anderson@example.com",
+  "document": "12345678900",
+  "password": "senha123"
+}
+
+###
+# Atualizar um campo isolado do usuário (PATCH)
+# Exemplo atualizando o campo "name" de um usuário pelo id
+PATCH {{baseURL}}/users/:id
+Content-Type: application/json
+
+{
+  "name": "Anderson"
+}
+
+###
+# Apagar um usuário (DELETE)
+DELETE {{baseURL}}/users/:id
