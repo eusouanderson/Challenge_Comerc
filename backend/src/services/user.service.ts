@@ -1,11 +1,11 @@
 import { db } from '@/db/client';
-import { users } from '@/schema/schema';
-import { eq } from 'drizzle-orm';
-import { randomUUID } from 'crypto';
-import bcrypt from 'bcryptjs'; 
-import { User } from '@/types/user';
-import { createUserSchema } from '@/validators/validate';
 import { ConflictError } from '@/error/conflict.error';
+import { users } from '@/schema/schema';
+import { User } from '@/types/user';
+import { createUserSchema } from '@/validators/user.validate';
+import bcrypt from 'bcryptjs';
+import { randomUUID } from 'crypto';
+import { eq } from 'drizzle-orm';
 
 export class UserService {
   async create(data: any) {
@@ -39,15 +39,13 @@ export class UserService {
       await db.insert(users).values(newUser);
 
       return { ...newUser, password: undefined };
-
     } catch (error) {
-      
       throw error;
     }
   }
 
   async findAll() {
-    return db.select().from(users).where(eq(users.status, 'active'));
+    return db.select().from(users);
   }
 
   async findById(id: string) {
@@ -56,22 +54,18 @@ export class UserService {
   }
 
   async update(id: string, data: Partial<User>) {
-    await db.update(users)
+    await db
+      .update(users)
       .set({ ...data, updatedAt: new Date() })
       .where(eq(users.id, id));
   }
 
   async deactivate(id: string) {
-    await db.update(users)
-      .set({ status: 'inactive' })
-      .where(eq(users.id, id));
+    await db.update(users).set({ status: 'inactive' }).where(eq(users.id, id));
   }
 
   async login(document: string, password: string) {
-    const result = await db
-      .select()
-      .from(users)
-      .where(eq(users.document, document));
+    const result = await db.select().from(users).where(eq(users.document, document));
     const user = result[0];
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new Error('Invalid credentials');

@@ -1,0 +1,38 @@
+@baseURL = http://localhost:3000
+
+###
+# Listar todos os clientes
+GET {{baseURL}}/client
+
+###
+# Criar um cliente (POST) - JSON body completo conforme schema
+POST {{baseURL}}/client
+Content-Type: application/json
+
+{
+  "name": "Anderson",
+  "lastname": "Silva",
+  "cpf": "123.456.789-00",
+  "email": "anderson@example.com",
+  "cell": "11999999999",
+  "cep": "01001-000",
+  "street": "Av. Paulista",
+  "neighborhood": "Bela Vista",
+  "city": "São Paulo",
+  "uf": "SP",
+  "password": "senha123"
+}
+
+###
+# Atualizar um campo isolado do cliente (PATCH)
+# Exemplo atualizando o campo "name" de um cliente pelo id
+PATCH {{baseURL}}/client/c44ddb04-eb65-48df-8575-2b38bf3dfdec
+Content-Type: application/json
+
+{
+  "name": "Anderson Atualizado"
+}
+
+###
+# Apagar um cliente (DELETE)
+DELETE {{baseURL}}/client/1
