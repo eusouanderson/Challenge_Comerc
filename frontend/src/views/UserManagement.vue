@@ -17,36 +17,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, watchEffect } from 'vue';
+import { ref, onMounted } from 'vue';
 import UserList from '@/components/organisms/UserList.vue';
 import UserForm from '@/components/molecules/UserForm.vue';
 import Modal from '@/components/atoms/Modal.vue';
 import Button from '@/components/atoms/Button.vue';
-
-interface User {
-  id: string;
-  name: string;
-  document: string;
-  password: string;
-  status: 'active' | 'inactive';
-}
+import { UserService, type User } from '@/api/user.service';
 
 const users = ref<User[]>([]);
-
-// Load users do localStorage no mount
-const loadUsers = () => {
-  const saved = localStorage.getItem('users');
-  if (saved) users.value = JSON.parse(saved);
-};
-loadUsers();
-
-// Salva localStorage sempre que users mudar
-watchEffect(() => {
-  localStorage.setItem('users', JSON.stringify(users.value));
-});
-
 const showModal = ref(false);
 const editingUser = ref<User | null>(null);
+
+const fetchUsers = async () => {
+  try {
+    users.value = await UserService.listUsers();
+  } catch (error) {
+    console.error('Erro ao carregar usuários:', error);
+  }
+};
+
+onMounted(fetchUsers);
 
 function closeModal() {
   showModal.value = false;
@@ -58,30 +48,34 @@ function onEditUser(user: User) {
   showModal.value = true;
 }
 
-function onDeactivateUser(user: User) {
-  const idx = users.value.findIndex((u) => u.id === user.id);
-  if (idx !== -1) {
-    users.value[idx].status = 'inactive';
+async function onDeactivateUser(user: User) {
+  try {
+    await UserService.updateUser(user.id, { status: 'inactive' });
+    await fetchUsers();
+  } catch (error) {
+    console.error('Erro ao desativar usuário:', error);
   }
 }
 
-function onSaveUser(userData: Partial<User>) {
-  if (editingUser.value) {
-    // Atualizar
-    const idx = users.value.findIndex((u) => u.id === editingUser.value?.id);
-    if (idx !== -1) {
-      users.value[idx] = { ...users.value[idx], ...userData };
+async function onSaveUser(userData: Partial<User>) {
+  try {
+    if (editingUser.value) {
+      // Atualizar
+      await UserService.updateUser(editingUser.value.id, userData);
+    } else {
+      // Criar
+      await UserService.createUser({
+        name: userData.name || '',
+        document: userData.document || '',
+        email: userData.email || '',
+        password: userData.password || '',
+      });
     }
-  } else {
-    // Criar novo usuário
-    users.value.push({
-      id: crypto.randomUUID(),
-      name: userData.name || '',
-      document: userData.document || '',
-      password: userData.password || '',
-      status: (userData.status as 'active' | 'inactive') || 'active',
-    });
+
+    await fetchUsers();
+    closeModal();
+  } catch (error) {
+    console.error('Erro ao salvar usuário:', error);
   }
-  closeModal();
 }
 </script>

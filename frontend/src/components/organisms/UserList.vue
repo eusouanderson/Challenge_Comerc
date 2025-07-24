@@ -54,10 +54,13 @@ const filterStatus = ref('');
 
 const filteredUsers = computed(() => {
   return props.users.filter((user) => {
+    const name = user.name?.toLowerCase() ?? '';
+    const document = user.document?.toLowerCase() ?? '';
     const matchSearch =
-      user.name.toLowerCase().includes(search.value.toLowerCase()) ||
-      user.document.toLowerCase().includes(search.value.toLowerCase());
+      name.includes(search.value.toLowerCase()) || document.includes(search.value.toLowerCase());
+
     const matchStatus = filterStatus.value ? user.status === filterStatus.value : true;
+
     return matchSearch && matchStatus;
   });
 });

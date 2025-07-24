@@ -41,7 +41,7 @@ export class UserService {
       return { ...newUser, password: undefined };
 
     } catch (error) {
-      // Propaga erro para o controller tratar (ou pode customizar aqui)
+      
       throw error;
     }
   }
