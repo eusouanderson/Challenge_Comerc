@@ -1,14 +1,21 @@
 <template>
   <div
     v-if="visible"
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    class="fixed inset-0 bg-background/50 flex items-center justify-center z-50 p-4"
   >
-    <div class="bg-white rounded p-6 w-full max-w-lg">
-      <header class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold"><slot name="title" /></h3>
-        <button @click="$emit('close')" class="text-gray-500 hover:text-gray-700">&times;</button>
+    <div class="bg-surface rounded p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <header class="flex justify-between items-center mb-4 sticky top-0 bg-surface z-10">
+        <h3 class="text-xl font-bold text-text"><slot name="title" /></h3>
+        <button
+          @click="$emit('close')"
+          class="text-muted hover:text-accent text-2xl leading-none transition-colors"
+        >
+          &times;
+        </button>
       </header>
-      <main><slot /></main>
+      <main class="overflow-y-auto max-h-[75vh] text-text">
+        <slot />
+      </main>
     </div>
   </div>
 </template>

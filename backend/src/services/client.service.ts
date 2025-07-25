@@ -80,12 +80,12 @@ export class ClientService {
     await db.update(client).set({ status: 'inactive' }).where(eq(client.id, id));
   }
 
-  async login(cpf: string, password: string) {
-    const result = await db.select().from(client).where(eq(client.cpf, cpf));
+  async login(email: string, password: string) {
+    const result = await db.select().from(client).where(eq(client.email, email));
     const clientUser = result[0];
     if (!clientUser || !(await bcrypt.compare(password, clientUser.password))) {
       throw new Error('Invalid credentials');
     }
-    return { id: clientUser.id, name: clientUser.name };
+    return { id: clientUser.id, name: clientUser.name, email: clientUser.email };
   }
 }

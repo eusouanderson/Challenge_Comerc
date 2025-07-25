@@ -1,27 +1,25 @@
 import { apiClient } from './api.service';
 
 export interface Movie {
-  title: string;
-  year: string;
+  Title: string;
+  Year: string;
   imdbID: string;
-  type: string;
-  poster: string;
+  Type: string;
+  Poster: string;
+  clientId: string;
 }
 
 export const MovieService = {
-  async searchMovies(payload: { title: string; year?: string }) {
+  searchMovies(payload: { title: string }) {
     return apiClient.post('/movies/search', payload);
   },
-
-  async saveMovie(movie: Movie) {
-    return apiClient.post('/api/movies', movie);
+  saveMovie(movie: Movie) {
+    return apiClient.post('/movies/save', movie);
   },
-
-  async listSavedMovies(): Promise<Movie[]> {
-    return apiClient.get('/api/movies/list');
+  listSavedMovies(clientId: string) {
+    return apiClient.get(`/movies/client/${clientId}`);
   },
-
-  async deleteSavedMovie(id: string) {
-    return apiClient.delete(`/api/movies/${id}`);
+  deleteMovie(imdbID: string) {
+    return apiClient.delete(`/movies/${imdbID}`);
   },
 };

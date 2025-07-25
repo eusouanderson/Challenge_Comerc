@@ -5,22 +5,30 @@
     "studio:dev": "pnpm drizzle-kit studio",
     "migrate:dev": "drizzle-kit migrate",
     "generate:dev": "drizzle-kit generate",
-    "push": "drizzle-kit push --config drizzle.config.ts"
+    "push": "drizzle-kit push --config drizzle.config.ts",
+    "start": "bun run src/index.ts",
+    "seed": "bun run src/scripts/seed.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@hono/node-server": "^1.17.1",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
     "hono": "^4.8.5",
     "ioredis": "^5.6.1",
+    "jsonwebtoken": "^9.0.2",
+    "jws": "^4.0.0",
     "pg": "^8.16.3",
     "undici": "^7.12.0",
     "zod": "^4.0.5"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/bun": "latest",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.1.0",
     "@types/pg": "^8.15.4",
     "@types/supertest": "^6.0.3",
     "drizzle-kit": "^0.31.4",

@@ -8,6 +8,12 @@ const app = new Hono();
 
 app.use('*', cors());
 
+// Middleware
+app.use('*', async (c, next) => {
+  console.log(`[${new Date().toISOString()}] ${c.req.method} ${c.req.url}`);
+  await next();
+});
+
 app.get('/', (c) => {
   return c.text('Api is runnig! ');
 });

@@ -1,7 +1,7 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
 import * as schema from '@/schema/schema';
 import * as dotenv from 'dotenv';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 
 dotenv.config();
 
@@ -10,6 +10,7 @@ const pool = new Pool({
 });
 
 async function testConnection() {
+  console.log('DATABASE_URL:', process.env.DATABASE_URL);
   try {
     const client = await pool.connect();
     await client.query('SELECT 1');
@@ -17,7 +18,7 @@ async function testConnection() {
     console.log('✅ Database connection successful!');
   } catch (error) {
     console.error('❌ Database connection failed:', error);
-    process.exit(1); 
+    process.exit(1);
   }
 }
 

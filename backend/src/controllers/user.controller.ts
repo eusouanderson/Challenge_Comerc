@@ -11,7 +11,7 @@ export const createUser = async (c: Context) => {
     return c.json(result, 201);
   } catch (error) {
     if (error instanceof ConflictError) {
-      return c.json({ message: error.message }, error.statusCode);
+      return c.json({ message: error.message });
     }
     if (error instanceof Error && error.message.startsWith('Validation failed')) {
       return c.json({ message: error.message }, 400);

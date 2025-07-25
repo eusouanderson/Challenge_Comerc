@@ -1,0 +1,40 @@
+@baseURL = http://localhost:3000
+
+###
+
+POST {{baseURL}}/movies/search
+
+{
+  "title": "Matrix"
+}
+
+### 
+GET {{baseURL}}/:id
+
+
+
+###
+
+POST {{baseURL}}/movies/save
+
+{
+      "Title": "The Matrix",
+      "Year": "1999",
+      "imdbID": "tt0133093",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_SX300.jpg",
+      "clientId": "eusouanderson"
+}
+
+
+###
+
+GET {{baseURL}}/movies/list
+
+###
+# delete filme 
+
+DELETE {{baseURL}}/movies/tt0133093
+### 
+
+GET {{baseURL}}/movies/client/eusouanderson

@@ -21,11 +21,21 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    
-    "baseUrl": ".",            
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]         
-    }
+      "@/*": ["src/*"]
+    },
+
+    /* Tipagens para Vitest e Vite */
+    "types": ["vite/client", "vitest/globals"]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "vitest.setup.ts"
+  ]
 }

@@ -1,0 +1,7 @@
+backend/node_modules/
+frontend/node_modules/
+bun.lockb
+dist
+build
+.git
+.env
