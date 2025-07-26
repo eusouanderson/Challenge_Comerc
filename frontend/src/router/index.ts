@@ -1,6 +1,6 @@
-import LoginView from '@/pages/LoginView.vue';
-import MovieDashboardView from '@/pages/MovieDashboardView.vue';
-import UserClientView from '@/pages/UserClientView.vue';
+import LoginView from '@/pages/Login.vue';
+import MovieDashboardView from '@/pages/MovieDashboard.vue';
+import UserClientView from '@/pages/UserClient.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
