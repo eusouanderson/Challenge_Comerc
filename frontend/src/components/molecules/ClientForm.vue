@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, defineEmits, defineProps, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import Input from '@/components/atoms/Input.vue';
 import Button from '@/components/atoms/Button.vue';
 

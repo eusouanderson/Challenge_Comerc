@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, defineEmits, defineProps } from 'vue';
+import { ref, computed } from 'vue';
 import Input from '@/components/atoms/Input.vue';
 
 const props = defineProps<{ clients: Array<any> }>();

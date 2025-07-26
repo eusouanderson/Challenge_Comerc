@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, defineEmits, defineProps } from 'vue';
+import { reactive } from 'vue';
 import Input from '@/components/atoms/Input.vue';
 import Button from '@/components/atoms/Button.vue';
 

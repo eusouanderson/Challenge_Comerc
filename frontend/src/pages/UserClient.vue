@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen bg-background text-text p-6 max-w-5xl mx-auto">
+  <main class="min-h-screen bg-background text-text p-6 mx-auto">
     <h1 class="text-4xl font-bold mb-8 text-primary">Gerenciamento</h1>
 
     <div class="flex gap-4 mb-6">

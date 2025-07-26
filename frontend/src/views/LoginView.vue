@@ -82,10 +82,11 @@ import { apiClient } from '@/api/api.service.ts';
 
 interface LoginResponse {
   message: string;
-  client: {
+  user: {
     id: string;
     name: string;
     email: string;
+    role: string;
   };
 }
 
@@ -103,14 +104,29 @@ const handleLogin = async () => {
   loading.value = true;
   errorMessage.value = '';
 
-  const response = await apiClient.post<LoginResponse>('/client/auth', {
-    email: form.value.email,
-    password: form.value.password,
-  });
-  console.log(response.message);
-  if (response.message === 'Login successful') {
-    localStorage.setItem('client', JSON.stringify(response.message));
-    router.push('/movies');
+  try {
+    const response = await apiClient.post<LoginResponse>('/auth/login', {
+      email: form.value.email,
+      password: form.value.password,
+    });
+
+    if (response.message === 'Login successful' && response.user) {
+      localStorage.setItem('client', JSON.stringify(response.user));
+
+      if (response.user.role === 'client') {
+        router.push('/movies');
+      } else if (response.user.role === 'admin') {
+        router.push('/management');
+      } else {
+        errorMessage.value = 'Role de usuário desconhecida';
+      }
+    } else {
+      errorMessage.value = response.message || 'Falha no login';
+    }
+  } catch (error: any) {
+    errorMessage.value = error.response?.data?.message || 'Erro na requisição de login';
+  } finally {
+    loading.value = false;
   }
 };
 </script>
