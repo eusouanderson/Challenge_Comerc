@@ -2,7 +2,7 @@
   <div class="p-6 max-w-5xl mx-auto">
     <h1 class="text-3xl font-bold mb-6">Gerenciamento de Usuários</h1>
     <Button variant="primary" @click="showModal = true">Novo Usuário</Button>
-    <UserList :users="users" @edit="onEditUser" @deactivate="onDeactivateUser" />
+    <UserList :users="users" @edit="onEditUser" @deactivate="onToggleUserStatus" />
     <Modal :visible="showModal" @close="closeModal">
       <template #title>
         {{ editingUser ? 'Editar Usuário' : 'Novo Usuário' }}
@@ -31,12 +31,12 @@ const {
   onEdit: onEditUser,
   onDeactivate: onDeactivateUser,
   onSave: onSaveUser,
+  fetchItems,
 } = useEntityManagement<User>(
   {
     list: UserService.listUsers,
     create: UserService.createUser,
     update: UserService.updateUser,
-    deactivate: (id) => UserService.updateUser(id, { status: 'inactive' }),
   },
   () => ({
     name: '',
@@ -45,4 +45,15 @@ const {
     password: '',
   })
 );
+const onToggleUserStatus = async (user: User) => {
+  try {
+    await UserService.updateUser(user.id, {
+      status: user.status === 'active' ? 'inactive' : 'active',
+    });
+    await fetchItems();
+  } catch (err) {
+    console.error('Erro status, in:', err);
+    errorMessage.value = 'Not found to change user status';
+  }
+};
 </script>

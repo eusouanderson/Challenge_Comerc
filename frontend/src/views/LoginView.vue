@@ -112,7 +112,6 @@ const handleLogin = async () => {
     });
 
     if (response.message === 'Login successful' && response.user) {
-      // ✅ Verifica se o status está inativo
       if (response.user.status === 'inactive') {
         errorMessage.value = 'Sua conta está inativa. Entre em contato com o administrador.';
         return;
@@ -131,7 +130,13 @@ const handleLogin = async () => {
       errorMessage.value = response.message || 'Falha no login';
     }
   } catch (error: any) {
-    errorMessage.value = error.response?.data?.message || 'Erro na requisição de login';
+    if (error?.response?.data?.error) {
+      errorMessage.value = error.response.data.error;
+    } else if (error?.message) {
+      errorMessage.value = error.message;
+    } else {
+      errorMessage.value = 'Erro na requisição de login';
+    }
   } finally {
     loading.value = false;
   }

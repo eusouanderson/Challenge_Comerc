@@ -18,3 +18,8 @@ export const comparePasswords = async (plain: string, hash: string): Promise<boo
 export const generateToken = (payload: { id: string; role: string }): string => {
   return jwt.sign(payload, env.JWT_SECRET, { expiresIn: '1d' });
 };
+
+export const hashPassword = async (password: string): Promise<string> => {
+  const saltRounds = 10;
+  return bcrypt.hash(password, saltRounds);
+};

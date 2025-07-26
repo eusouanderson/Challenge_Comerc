@@ -2,7 +2,7 @@
   <div class="p-6 max-w-5xl mx-auto">
     <h1 class="text-3xl font-bold mb-6">Gerenciamento de Clientes</h1>
     <Button variant="primary" @click="showModal = true">Novo Cliente</Button>
-    <ClientList :clients="clients" @edit="onEditClient" @deactivate="onDeactivateClient" />
+    <ClientList :clients="clients" @edit="onEditClient" @deactivate="onToggleClientStatus" />
     <Modal :visible="showModal" @close="closeModal">
       <template #title>
         {{ editingClient ? 'Editar Cliente' : 'Novo Cliente' }}
@@ -35,12 +35,12 @@ const {
   onEdit: onEditClient,
   onDeactivate: onDeactivateClient,
   onSave: onSaveClient,
+  fetchItems,
 } = useEntityManagement<Client, CreateClientInput, Partial<Client>>(
   {
     list: ClientService.listClients,
     create: ClientService.createClient,
     update: ClientService.updateClient,
-    deactivate: (id) => ClientService.updateClient(id, { status: 'inactive' }),
   },
   () => ({
     name: '',
@@ -56,4 +56,16 @@ const {
     password: '',
   })
 );
+
+const onToggleClientStatus = async (client: Client) => {
+  try {
+    await ClientService.updateClient(client.id, {
+      status: client.status === 'active' ? 'inactive' : 'active',
+    });
+    await fetchItems();
+  } catch (err) {
+    console.error('Error status, in :', err);
+    errorMessage.value = 'Not found to change client status';
+  }
+};
 </script>

@@ -12,8 +12,8 @@ Content-Type: application/json
 {
   "name": "Anderson",
   "lastname": "Silva",
-  "cpf": "123.456.789-00",
-  "email": "eusouanderson@outlook.com",
+  "cpf": "124.456.789-00",
+  "email": "eusoanderson@outlook.com",
   "cell": "11999999999",
   "cep": "01001-000",
   "street": "Av. Paulista",

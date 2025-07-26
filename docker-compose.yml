@@ -48,6 +48,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://myuser:mypassword@postgres:5432/mydatabase
+      REDIS_HOST: redis
 
   frontend:
     build:

@@ -52,14 +52,22 @@ Rodar backend em modo desenvolvimento (hot reload):
 docker exec -it backend_challenge_comerc bun run --hot src/index.ts
 ```
 
-```bash
-await db.insert(users).values({
-id: generateId(), // Gera um UUID único para o usuário
-name: 'Admin', // Nome do usuário admin
-document: generateCPF(), // Gera um CPF válido (fake) para o admin
-email: 'admin@admin.com', // Email padrão do admin para login
-password: 'admin', // Senha padrão (deve ser alterada depois)
-status: 'active', // Status ativo para poder usar o sistema
-});
+# App is running
 
+### Acesse o app em:
+
+```bash
+  http://localhost:5173/
 ```
+
+## 👤 Login de Usuário
+
+**Email:** user@admin.com
+
+**Senha:** admin123
+
+### 👥 Login de Cliente
+
+**Email:** client@admin.com
+
+**Senha:** admin123

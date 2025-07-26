@@ -1,7 +1,8 @@
 backend/node_modules/
 frontend/node_modules/
+backend/.env
 bun.lockb
 dist
 build
 .git
-.env
+

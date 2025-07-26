@@ -1,39 +1,39 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "npx vitest run",
-    "test:watch": "vitest --watch",
-    "lint": "eslint . --ext .ts,.vue",
-    "format": "prettier --write .",
-    "test:coverage": "vitest run --coverage"
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    
+    "types": ["vite/client", "vitest/globals"]
   },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/vue": "^8.1.0",
-    "@types/node": "^24.1.0",
-    "@vitejs/plugin-vue": "^6.0.0",
-    "@vitest/coverage-v8": "0.34.2",
-    "@vitest/ui": "^3.2.4",
-    "@vue/compiler-sfc": "^3.5.18",
-    "@vue/test-utils": "^2.4.6",
-    "esbuild": "^0.25.8",
-    "jsdom": "^26.1.0",
-    "typescript": "~5.8.3",
-    "util": "^0.12.5",
-    "vite": "^7.0.5",
-    "vitest": "^0.34.2"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "pinia": "^3.0.3",
-    "tailwindcss": "^4.1.11",
-    "vue": "^3.5.18",
-    "vue-router": "4"
-  }
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "vitest.setup.ts"
+  ]
+  
 }

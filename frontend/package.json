@@ -22,11 +22,11 @@
     "@vitest/ui": "^3.2.4",
     "@vue/compiler-sfc": "^3.5.18",
     "@vue/test-utils": "^2.4.6",
-    "esbuild": "^0.17.19",
+    "esbuild": "^0.25.8",
     "jsdom": "^26.1.0",
     "typescript": "~5.8.3",
     "util": "^0.12.5",
-    "vite": "^4.4.9",
+    "vite": "^7.0.6",
     "vitest": "3.2.4"
   },
   "dependencies": {
@@ -37,6 +37,6 @@
     "vue-router": "4"
   },
   "resolutions": {
-    "esbuild": "^0.17.19"
+    "esbuild": "^0.25.8"
   }
 }
