@@ -12,6 +12,7 @@
     </Modal>
   </div>
 </template>
+
 <script lang="ts" setup>
 import ClientList from '@/components/organisms/ClientList.vue';
 import ClientForm from '@/components/molecules/ClientForm.vue';
@@ -21,17 +22,20 @@ import { ClientService, type Client } from '@/api/client.service';
 import GlobalError from '@/components/atoms/GlobalError.vue';
 import { useEntityManagement } from '@/composables/useEntityManagement';
 
+type CreateClientInput = Omit<Client, 'id' | 'status' | 'createdAt' | 'updatedAt'> & {
+  password: string;
+};
+
 const {
   items: clients,
   editingItem: editingClient,
   showModal,
   errorMessage,
-  openModal,
   closeModal,
   onEdit: onEditClient,
   onDeactivate: onDeactivateClient,
   onSave: onSaveClient,
-} = useEntityManagement<Client>(
+} = useEntityManagement<Client, CreateClientInput, Partial<Client>>(
   {
     list: ClientService.listClients,
     create: ClientService.createClient,

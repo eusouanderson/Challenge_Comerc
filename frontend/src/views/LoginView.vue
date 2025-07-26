@@ -87,6 +87,7 @@ interface LoginResponse {
     name: string;
     email: string;
     role: string;
+    status: string;
   };
 }
 
@@ -111,6 +112,12 @@ const handleLogin = async () => {
     });
 
     if (response.message === 'Login successful' && response.user) {
+      // ✅ Verifica se o status está inativo
+      if (response.user.status === 'inactive') {
+        errorMessage.value = 'Sua conta está inativa. Entre em contato com o administrador.';
+        return;
+      }
+
       localStorage.setItem('client', JSON.stringify(response.user));
 
       if (response.user.role === 'client') {

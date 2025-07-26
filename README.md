@@ -1,4 +1,4 @@
-# Documentação rápida: Rodando scripts Drizzle e seed via Docker
+# Rodando scripts Drizzle e seed via Docker
 
 Seu backend roda no container chamado `backend_challenge_comerc`.
 

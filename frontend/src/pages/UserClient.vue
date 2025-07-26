@@ -1,17 +1,14 @@
 <template>
-  <main class="min-h-screen bg-background text-text p-6 mx-auto">
+  <main class="min-h-screen bg-zinc-900 text-text p-6 mx-auto">
     <h1 class="text-4xl font-bold mb-8 text-primary">Gerenciamento</h1>
 
     <div class="flex gap-4 mb-6">
-      <button
-        @click="showUser = !showUser"
-        class="px-4 py-2 rounded-md bg-primary hover:bg-accent text-text transition"
-      >
+      <button @click="showUser = !showUser" class="px-4 py-2 rounded-md bg-primary hover:bg-accent">
         {{ showUser ? 'Ocultar' : 'Mostrar' }} Usuários
       </button>
       <button
         @click="showClient = !showClient"
-        class="px-4 py-2 rounded-md bg-secondary hover:bg-accent text-text transition"
+        class="px-4 py-2 rounded-md bg-secondary hover:bg-accent"
       >
         {{ showClient ? 'Ocultar' : 'Mostrar' }} Clientes
       </button>

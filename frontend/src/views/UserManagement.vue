@@ -27,7 +27,6 @@ const {
   editingItem: editingUser,
   showModal,
   errorMessage,
-  openModal,
   closeModal,
   onEdit: onEditUser,
   onDeactivate: onDeactivateUser,

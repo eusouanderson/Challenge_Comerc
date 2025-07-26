@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /// <reference types="vitest" />
 import '@testing-library/jest-dom';
 import vue from '@vitejs/plugin-vue';

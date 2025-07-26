@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ClienteForm from '@/components/molecules/ClientForm.vue';
 import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

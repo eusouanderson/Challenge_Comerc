@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Input from '@/components/atoms/Input.vue';
 import UserList from '@/components/organisms/UserList.vue';
 import { mount } from '@vue/test-utils';

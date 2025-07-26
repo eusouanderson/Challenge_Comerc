@@ -1,0 +1,12 @@
+###
+
+@baseURL = http://localhost:3000
+
+###
+
+POST {{baseURL}}/auth/login
+
+{
+  "email": "eusouanderson@outlook.com",
+  "password": "67983527"
+}
