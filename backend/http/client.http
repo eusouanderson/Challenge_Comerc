@@ -39,10 +39,4 @@ DELETE {{baseURL}}/client/c44ddb04-eb65-48df-8575-2b38bf3dfdec
 
 ###
 # Autenticação (login) - POST com email e password
-POST {{baseURL}}/client/auth
-Content-Type: application/json
 
-{
-  "email": "eusouanderson@outlook.com",
-  "password": "67983527"
-}

@@ -1,36 +1,48 @@
-import { UnauthorizedError } from '@/error/unauthorized.error';
-import { ValidationError } from '@/error/validation.error';
-import { ClientRepository } from '@/repositories/client.repository';
+import { db } from '@/db/client';
+import { client, users } from '@/schema/schema';
 import { comparePasswords, generateToken } from '@/utils/auth.util';
+import { eq } from 'drizzle-orm';
 
-export class AuthService {
-  private repository = new ClientRepository();
+export const loginService = async (email: string, password: string) => {
+  const foundClient = await db.select().from(client).where(eq(client.email, email)).limit(1);
+  if (foundClient.length > 0) {
+    const c = foundClient[0];
+    const match = await comparePasswords(password, c.password);
+    if (!match) throw new Error('Invalid password');
 
-  async login({ email, password }: { email: string; password: string }) {
-    if (!email || !password) {
-      throw new ValidationError('Email and password are required');
-    }
-
-    const client = await this.repository.findByEmail(email);
-    if (!client || !client.passwordHash) {
-      throw new UnauthorizedError('Invalid credentials');
-    }
-
-    const passwordMatch = await comparePasswords(password, client.passwordHash);
-    if (!passwordMatch) {
-      throw new UnauthorizedError('Invalid credentials');
-    }
-
-    const token = generateToken({ id: client.id, email: client.email });
+    const token = generateToken({ id: c.id, role: 'client' });
 
     return {
-      message: 'Login successful',
       token,
-      client: {
-        id: client.id,
-        name: client.name,
-        email: client.email,
+      user: {
+        id: c.id,
+        name: c.name,
+        email: c.email,
+        status: c.status,
+        role: 'client',
       },
     };
   }
-}
+
+  const foundUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  if (foundUser.length > 0) {
+    const u = foundUser[0];
+    const match = await comparePasswords(password, u.password);
+    if (!match) throw new Error('Invalid password');
+
+    const token = generateToken({ id: u.id, role: 'admin' });
+
+    return {
+      token,
+      user: {
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        status: u.status,
+        role: 'admin',
+      },
+    };
+  }
+
+  throw new Error('User not found');
+};

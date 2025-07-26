@@ -1,9 +1,9 @@
+import { authRouter } from '@/routes/auth.route';
 import { userRoutes } from '@/routes/user.routes';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { clientRoutes } from './routes/client.routes';
 import { movieRoutes } from './routes/movie.routes';
-
 const app = new Hono();
 
 app.use('*', cors());
@@ -21,5 +21,6 @@ app.get('/', (c) => {
 app.route('/movies', movieRoutes);
 app.route('/users', userRoutes);
 app.route('/client', clientRoutes);
+app.route('/auth', authRouter);
 
 export default app;

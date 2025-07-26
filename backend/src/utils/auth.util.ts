@@ -1,12 +1,20 @@
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { z } from 'zod';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+dotenv.config();
 
-export const comparePasswords = async (plain: string, hashed: string) => {
-  return bcrypt.compare(plain, hashed);
+const envSchema = z.object({
+  JWT_SECRET: z.string().min(10, 'JWT_SECRET must be at least 10 characters'),
+});
+
+const env = envSchema.parse(process.env);
+
+export const comparePasswords = async (plain: string, hash: string): Promise<boolean> => {
+  return bcrypt.compare(plain, hash);
 };
 
-export const generateToken = (payload: object) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
+export const generateToken = (payload: { id: string; role: string }): string => {
+  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: '1d' });
 };

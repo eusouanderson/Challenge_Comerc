@@ -1,13 +1,13 @@
 import { onMounted, ref } from 'vue';
 
-export function useEntityManagement<T>(
+export function useEntityManagement<T, TCreate = Partial<T>, TUpdate = Partial<T>>(
   service: {
     list: () => Promise<T[]>;
-    create: (data: Partial<T>) => Promise<any>;
-    update: (id: string, data: Partial<T>) => Promise<any>;
-    deactivate?: (id: string) => Promise<any>;
+    create: (data: TCreate) => Promise<T>;
+    update: (id: string, data: TUpdate) => Promise<T>;
+    deactivate?: (id: string) => Promise<T>;
   },
-  defaultData: () => Partial<T>
+  defaultData: () => TCreate
 ) {
   const items = ref<T[]>([]);
   const editingItem = ref<T | null>(null);
@@ -47,7 +47,7 @@ export function useEntityManagement<T>(
     if (!service.deactivate) return;
 
     try {
-      // @ts-ignore -
+      // @ts-expect-error: `id`
       await service.deactivate(item.id);
       await fetchItems();
     } catch (error) {
@@ -56,18 +56,17 @@ export function useEntityManagement<T>(
     }
   }
 
-  async function onSave(data: Partial<T>) {
+  async function onSave(data: TCreate | TUpdate) {
     try {
       errorMessage.value = null;
 
       if (editingItem.value) {
-        // @ts-ignore -
-        await service.update(editingItem.value.id, data);
+        await service.update(editingItem.value.id, data as TUpdate);
       } else {
         await service.create({
           ...defaultData(),
           ...data,
-        });
+        } as TCreate);
       }
 
       await fetchItems();

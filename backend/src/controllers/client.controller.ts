@@ -67,22 +67,3 @@ export const deleteClient = async (c: Context) => {
     return c.json({ message: 'Internal Server Error' }, 500);
   }
 };
-
-export const loginClient = async (c: Context) => {
-  try {
-    const { email, password } = await c.req.json();
-
-    if (!email || !password) {
-      return c.json({ message: 'email and password are required' }, 400);
-    }
-
-    const clientData = await clientService.login(email, password);
-
-    return c.json({ message: 'Login successful', client: clientData });
-  } catch (error) {
-    if (error instanceof Error && error.message === 'Invalid credentials') {
-      return c.json({ message: error.message }, 401);
-    }
-    return c.json({ message: 'Internal Server Error' }, 500);
-  }
-};

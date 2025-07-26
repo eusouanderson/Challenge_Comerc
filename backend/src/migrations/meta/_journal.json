@@ -15,6 +15,13 @@
       "when": 1753457742677,
       "tag": "0001_nice_maggott",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753480353893,
+      "tag": "0002_dazzling_mesmero",
+      "breakpoints": true
     }
   ]
 }

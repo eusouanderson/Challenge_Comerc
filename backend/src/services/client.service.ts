@@ -79,13 +79,4 @@ export class ClientService {
   async deactivate(id: string) {
     await db.update(client).set({ status: 'inactive' }).where(eq(client.id, id));
   }
-
-  async login(email: string, password: string) {
-    const result = await db.select().from(client).where(eq(client.email, email));
-    const clientUser = result[0];
-    if (!clientUser || !(await bcrypt.compare(password, clientUser.password))) {
-      throw new Error('Invalid credentials');
-    }
-    return { id: clientUser.id, name: clientUser.name, email: clientUser.email };
-  }
 }

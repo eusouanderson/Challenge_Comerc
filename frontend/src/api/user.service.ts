@@ -4,6 +4,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  status: string;
   document: string;
 }
 
@@ -12,7 +13,10 @@ export const UserService = {
     return apiClient.get('/users');
   },
 
-  async createUser(data: Omit<User, 'id'> & { password: string }): Promise<User> {
+  async createUser(data: Partial<User> & { password?: string }): Promise<User> {
+    if (!data.name || !data.email || !data.document || !data.password) {
+      return Promise.reject(new Error('Preencha todos os campos obrigatórios.'));
+    }
     return apiClient.post('/users', data);
   },
 
