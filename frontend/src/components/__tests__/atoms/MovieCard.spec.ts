@@ -16,7 +16,7 @@ describe('MovieCard.vue', () => {
 
     expect(wrapper.find('img').attributes('src')).toBe(mockProps.poster);
     expect(wrapper.find('img').attributes('alt')).toBe(mockProps.title);
-    expect(wrapper.find('h3').text()).toBe(`${mockProps.title} (${mockProps.year})`);
+    expect(wrapper.find('h3').text()).toBe(`${mockProps.title}`);
   });
 
   it('aplica classes CSS corretamente', () => {
@@ -33,10 +33,7 @@ describe('MovieCard.vue', () => {
 
     const img = wrapper.find('img');
     expect(img.classes()).toContain('w-full');
-    expect(img.classes()).toContain('h-[350px]');
     expect(img.classes()).toContain('object-cover');
-    expect(img.classes()).toContain('bg-gray-200');
-
     const title = wrapper.find('h3');
     expect(title.classes()).toContain('truncate');
   });
@@ -75,7 +72,7 @@ describe('MovieCard.vue', () => {
       },
     });
 
-    expect(wrapper.find('h3').text()).toBe('The Dark Knight (2008)');
+    expect(wrapper.find('h3').text()).toBe('The Dark Knight');
   });
 
   it('aplica hover effect corretamente', () => {

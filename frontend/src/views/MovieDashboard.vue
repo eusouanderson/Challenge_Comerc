@@ -1,18 +1,28 @@
 <template>
+  <Header />
   <div class="p-8 font-sans text-gray-800">
-    <h1 class="text-amber-50 mb-8">Movies Gallery</h1>
-
     <FeedbackMessage v-if="showSavedFeedback" message="Movie saved successfully!" type="success" />
 
-    <MovieSearch v-model="searchTitle" @search="searchMovies" />
+    <MovieSearch v-model:modelValue="searchTitle" @search="searchMovies" />
 
     <div class="bg-gray-50 rounded-lg shadow p-6 mb-8">
       <h2 class="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
         Search Results
       </h2>
-      <MovieList v-if="searchResults?.length > 0">
+
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-gray-700 font-semibold">Sort by Year:</span>
+        <button
+          @click="toggleSortOrder"
+          class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          {{ sortOrder === 'asc' ? 'Ascending ↑' : 'Descending ↓' }}
+        </button>
+      </div>
+
+      <MovieList v-if="sortedSearchResults.length > 0">
         <MovieCard
-          v-for="movie in searchResults"
+          v-for="movie in sortedSearchResults"
           :key="movie.imdbID"
           :title="movie.Title"
           :year="movie.Year"
@@ -27,6 +37,7 @@
           </button>
         </MovieCard>
       </MovieList>
+
       <p v-else-if="searchAttempted" class="text-center text-gray-600 italic">
         No movies found. Try a different search.
       </p>
@@ -65,13 +76,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { MovieService, type Movie } from '@/api/movie.service';
+import { defineComponent, ref, computed } from 'vue';
+import { MovieService } from '@/api/movie.service';
+import type { Movie } from '@/interfaces/movie';
 import MovieSearch from '@/components/organisms/MovieSearch.vue';
 import MovieList from '@/components/molecules/MovieList.vue';
 import MovieCard from '@/components/atoms/MovieCard.vue';
 import MovieViewToggle from '@/components/organisms/MovieViewToggle.vue';
 import FeedbackMessage from '@/components/atoms/FeedbackMessage.vue';
+import Header from '@/layouts/Header.vue';
 
 export default defineComponent({
   name: 'MovieDashboard',
@@ -81,18 +94,43 @@ export default defineComponent({
     MovieCard,
     MovieViewToggle,
     FeedbackMessage,
+    Header,
   },
   setup() {
     const searchTitle = ref('');
     const searchResults = ref<Movie[]>([]);
     const savedMovies = ref<Movie[]>([]);
     const currentView = ref<'all' | 'mine'>('all');
-    const clientId = 'eusouanderson';
     const searchAttempted = ref(false);
     const loading = ref(false);
     const deletingMovie = ref<string | null>(null);
     const savingMovie = ref<string | null>(null);
     const showSavedFeedback = ref(false);
+    const sortOrder = ref<'asc' | 'desc'>('desc');
+    const clientId = (() => {
+      const clientJson = localStorage.getItem('client');
+      if (clientJson) {
+        try {
+          const client = JSON.parse(clientJson);
+          return client.id ?? null;
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    })();
+
+    const sortedSearchResults = computed(() => {
+      return [...searchResults.value].sort((a, b) => {
+        const yearA = parseInt(a.Year) || 0;
+        const yearB = parseInt(b.Year) || 0;
+        return sortOrder.value === 'asc' ? yearA - yearB : yearB - yearA;
+      });
+    });
+
+    function toggleSortOrder() {
+      sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+    }
 
     const isValidMovie = (movie: Movie): boolean => {
       return !!movie.Title && !!movie.Year && !!movie.imdbID;
@@ -107,8 +145,9 @@ export default defineComponent({
       try {
         searchAttempted.value = true;
         const response = await MovieService.searchMovies({ title: searchTitle.value });
-
+        // @ts-ignore
         if (response && Array.isArray(response.Search)) {
+          // @ts-ignore
           searchResults.value = response.Search;
         } else {
           console.warn('[searchMovies] Unexpected API response structure');
@@ -137,7 +176,7 @@ export default defineComponent({
           alert('This movie is already in your collection!');
           return;
         }
-
+        // @ts-ignore
         const movieToSave: Movie = {
           Title: movie.Title,
           Year: movie.Year,
@@ -177,9 +216,11 @@ export default defineComponent({
     const fetchSavedMovies = async () => {
       try {
         loading.value = true;
-        const response = await MovieService.listSavedMovies('eusouanderson');
+        console.log('[fetchSavedMovies] Fetching saved movies for client:', clientId);
+        const response = await MovieService.listSavedMovies(clientId);
 
         if (response && Array.isArray(response)) {
+          // @ts-ignore
           savedMovies.value = response
             .map((movie: any) => ({
               Title: movie.Title,
@@ -213,6 +254,7 @@ export default defineComponent({
     return {
       searchTitle,
       searchResults,
+      sortedSearchResults,
       savedMovies,
       currentView,
       searchAttempted,
@@ -220,6 +262,8 @@ export default defineComponent({
       deletingMovie,
       savingMovie,
       showSavedFeedback,
+      sortOrder,
+      toggleSortOrder,
       searchMovies,
       saveMovie,
       deleteMovie,

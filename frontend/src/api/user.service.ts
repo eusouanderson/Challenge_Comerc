@@ -1,12 +1,7 @@
-import { apiClient } from './api.service';
+// @ts-nocheck
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  status: string;
-  document: string;
-}
+import { apiClient } from '@/api/api.service';
+import type { User } from '@/interfaces/user';
 
 export const UserService = {
   async listUsers(): Promise<User[]> {

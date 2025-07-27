@@ -2,11 +2,43 @@
 
 @theme {
  
-  --color-primary: oklch(0.72 0.14 280);      
-  --color-secondary: oklch(0.6 0.12 200);     
-  --color-accent: oklch(0.8 0.17 50);         
-  --color-background: oklch(0.18 0.02 250);   
-  --color-surface: oklch(0.26 0.03 250);      
-  --color-text: oklch(0.95 0.01 250);         
-  --color-muted: oklch(0.65 0.02 250);        
+   --color-primary: oklch(0.43 0.28 280);
+  --color-secondary: oklch(0.29 0.23 260);
+  --color-accent: oklch(0.53 0.36 280);
+  --color-background: oklch(0.18 0.05 270);
+  --color-surface: oklch(0.30 0.08 270);
+  --color-text: oklch(0.95 0.01 260);
+  --color-muted: oklch(0.55 0.03 270);      
+}
+.swal2-popup {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-primary);
+  border-radius: 1rem;
+  font-family: inherit;
+}
+
+.swal2-title {
+  color: var(--color-accent);
+}
+
+.swal2-confirm {
+  background-color: var(--color-primary) !important;
+  color: var(--color-text) !important;
+  border: none !important;
+}
+
+.swal2-cancel {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-text) !important;
+  border: none !important;
+}
+
+.swal2-icon {
+  color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+}
+
+body.dark .swal2-popup {
+  background-color: var(--color-background);
 }

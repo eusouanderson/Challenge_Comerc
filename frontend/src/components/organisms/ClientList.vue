@@ -52,6 +52,12 @@
             >
               {{ client.status === 'active' ? 'Desativar' : 'Reativar' }}
             </button>
+            <button
+              @click="$emit('delete', client)"
+              class="text-red-500 hover:text-red-700 transition-colors"
+            >
+              Deletar
+            </button>
           </td>
         </tr>
         <tr v-if="filteredClients.length === 0">
@@ -69,7 +75,7 @@ import { ref, computed } from 'vue';
 import Input from '@/components/atoms/Input.vue';
 
 const props = defineProps<{ clients: Array<any> }>();
-const emit = defineEmits(['edit', 'deactivate']);
+const emit = defineEmits(['edit', 'deactivate', 'delete']);
 
 const search = ref('');
 const filterStatus = ref('');

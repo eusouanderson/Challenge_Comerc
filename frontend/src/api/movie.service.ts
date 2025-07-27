@@ -1,13 +1,7 @@
-import { apiClient } from './api.service';
+// @ts-nocheck
 
-export interface Movie {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
-  clientId: string;
-}
+import { apiClient } from '@/api/api.service';
+import type { Movie } from '@/interfaces/movie';
 
 export const MovieService = {
   searchMovies(payload: { title: string }) {

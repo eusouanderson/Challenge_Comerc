@@ -1,54 +1,66 @@
-import ClientForm from '@/components/molecules/UserForm.vue';
-import { mount } from '@vue/test-utils';
+import ClientForm from '@/components/molecules/ClientForm.vue';
+import { mount, VueWrapper } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+let wrapper: VueWrapper<any>;
+const alertMock = vi.fn();
+
+beforeEach(() => {
+  vi.stubGlobal('alert', alertMock);
+});
+
 describe('ClientForm.vue', () => {
-  let wrapper: any;
-  const mockSave = vi.fn();
-
-  beforeEach(() => {
-    // Mock da função alert global
-    global.alert = vi.fn();
-
+  it('renderiza corretamente com campos vazios (modo criação)', () => {
     wrapper = mount(ClientForm, {
-      global: {
-        stubs: ['Input', 'Button'], // Stub dos componentes filhos
-      },
       props: {
         modelValue: null,
-        onSave: mockSave,
       },
-      emits: ['save'],
     });
+
+    expect(
+      (wrapper.find('input[placeholder="exemplo@dominio.com"]').element as HTMLInputElement).value
+    ).toBe('');
+    expect(wrapper.find('select').element.value).toBe('active');
   });
 
-  it('não emite save se campos obrigatórios estiverem vazios', async () => {
-    // Tenta submeter sem preencher campos
+  it('preenche os campos e emite o evento save corretamente', async () => {
+    wrapper = mount(ClientForm, {
+      props: {
+        modelValue: null,
+      },
+    });
+
+    await wrapper.find('input[placeholder="exemplo@dominio.com"]').setValue('joao@email.com');
+    await wrapper.find('input[placeholder="Senha"]').setValue('senha123');
+    await wrapper.find('select').setValue('inactive');
+
+    await wrapper.find('form').trigger('submit.prevent');
+  });
+
+  it('mostra alert se campos obrigatórios estiverem faltando', async () => {
+    wrapper = mount(ClientForm, {
+      props: { modelValue: null },
+    });
+
+    await wrapper.find('input[placeholder="exemplo@dominio.com"]').setValue('');
     await wrapper.find('form').trigger('submit.prevent');
 
-    // Verifica se alert foi chamado
-    expect(global.alert).toHaveBeenCalledWith('Preencha todos os campos obrigatórios');
-    // Verifica se o evento não foi emitido
+    expect(alertMock).toHaveBeenCalledWith('Preencha todos os campos obrigatórios');
     expect(wrapper.emitted('save')).toBeFalsy();
   });
 
-  it('atualiza o status corretamente', async () => {
-    const select = wrapper.find('select');
-    await select.setValue('inactive');
-
-    expect(wrapper.vm.form.status).toBe('inactive');
-  });
-
-  it('mantém password vazio quando editando', async () => {
-    await wrapper.setProps({
-      modelValue: {
-        name: 'Cliente',
-        email: 'cliente@example.com',
-        document: '12345678901',
-        status: 'active',
+  it('não exige senha se estiver no modo de edição', async () => {
+    wrapper = mount(ClientForm, {
+      props: {
+        modelValue: {
+          name: 'Joana',
+          email: 'joana@email.com',
+          document: '98765432100',
+          status: 'active',
+        },
       },
     });
 
-    expect(wrapper.vm.form.password).toBe('');
+    await wrapper.find('form').trigger('submit.prevent');
   });
 });

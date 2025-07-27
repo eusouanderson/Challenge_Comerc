@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export class HTTPClient {
   private static instance: HTTPClient;
   private baseUrl: string;

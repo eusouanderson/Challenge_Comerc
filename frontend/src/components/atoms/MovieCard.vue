@@ -1,15 +1,18 @@
 <template>
   <div
-    class="bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition-transform"
+    class="w-full max-w-[220px] bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition-transform"
   >
-    <img
-      :src="poster"
-      :alt="title"
-      class="w-full h-[350px] object-cover bg-gray-200"
-      @error="handleImageError"
-    />
-    <div class="p-4">
-      <h3 class="text-lg font-semibold text-gray-800 mb-2 truncate">{{ title }} ({{ year }})</h3>
+    <div class="aspect-[2/3] bg-gray-200 overflow-hidden">
+      <img
+        :src="poster"
+        :alt="title"
+        class="w-full h-full object-cover"
+        @error="handleImageError"
+      />
+    </div>
+    <div class="p-4 text-center">
+      <h3 class="text-lg font-semibold text-gray-800 mb-1 truncate">{{ title }}</h3>
+      <p class="text-sm text-gray-600">{{ year }}</p>
       <slot></slot>
     </div>
   </div>

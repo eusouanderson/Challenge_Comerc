@@ -52,6 +52,16 @@ Rodar backend em modo desenvolvimento (hot reload):
 docker exec -it backend_challenge_comerc bun run --hot src/index.ts
 ```
 
+### Mas é claro que já deixei tudo automatico!
+
+| Ao rodar:
+
+```bash
+docker compose up
+```
+
+Todas as etapas de build do projeto entraram em execução.
+
 # App is running
 
 ### Acesse o app em:
@@ -71,3 +81,18 @@ docker exec -it backend_challenge_comerc bun run --hot src/index.ts
 **Email:** client@admin.com
 
 **Senha:** admin123
+
+⚠️ Atenção
+Caso você mesmo desative o seu cadastro, ainda será possível acessar diretamente a rota:
+
+http://localhost:5173/management
+
+**Name** Client
+
+### ⚠️ **Atenção**
+
+> ⚠ **Atenção:** Atualmente esta rota **não possui proteção de segurança**  
+> _(sem auth guard, verificação de token ou checagem de status ativo)_.
+>
+> 🛠️ Portanto, é possível **reativar seu cadastro manualmente** acessando:
+> 👉 [`http://localhost:5173/management`](http://localhost:5173/management)
