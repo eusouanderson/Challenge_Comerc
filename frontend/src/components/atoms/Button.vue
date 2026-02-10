@@ -1,19 +1,5 @@
 <template>
   <ce-autocomplete> content </ce-autocomplete>
-  <ce-button variant="primary" size="md" :disabled="false"> content </ce-button>
-  <ce-badges label="Label" variant="default"> content </ce-badges>
-  <ce-data-tables> content </ce-data-tables>
-  <ce-banners> content </ce-banners>
-  <ce-button -pagination
-    variant="primary"
-    size="md"
-    :disabled="false"
-  >
-    content
-  </ce-button -pagination>
-
-  
-  
   <button
     :class="[
       'px-4 py-2 rounded font-semibold focus:outline-none transition-colors duration-300',
